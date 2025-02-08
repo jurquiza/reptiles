@@ -1,0 +1,31 @@
+version: "3.1"
+services:
+  flask_app:
+    build: './flask_app'
+    volumes: 
+      - './flask_app:/flask_app'
+      - './shared-storage:/shared'
+    environment:
+      - REDIS_URL=redis
+      - REDIS_PORT=6379
+    ports:
+      - "5000:5000"
+    depends_on:
+      - redis
+
+
+  simple_worker:
+    build: './simple_worker'
+    volumes: 
+      - './simple_worker:/simple_worker'
+      - './shared-storage:/shared'
+      #- './flask_app:/flask_app'
+    user: nobody
+    depends_on:
+      - redis
+      - flask_app
+  
+  redis:
+    image: 'redis:4-alpine'
+    ports:
+      - '6379:6379'
