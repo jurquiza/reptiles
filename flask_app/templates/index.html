@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 50px;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            color: #343a40;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .btn-primary {
+            background-color: #1888ff;
+            border-color: #1888ff;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+        .form-text {
+            color: #6c757d;
+        }
+        label {
+            color: #343a40;
+        }
+        .navbar {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">Reptiles</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/docs/">Documentation</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <!-- Add a div to show warning messages -->
+        {% if warning_message %}
+        <div class="alert alert-warning" role="alert">
+            {{ warning_message }}
+        </div>
+        {% endif %}
+        <h1 class="display-1">RepTiles v1.0</h1>
+        <div class="d-flex justify-content-center">
+            <img src="{{ url_for('static', filename='moss-icon.png') }}" alt="Moss Icon" width="150" class="img-fluid">
+        </div>
+
+        <h2>Golden Braid Biodesign Automation for Plant Synthetic Genomics</h2>
+        <form method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="backbones_directory">Upload Backbones:</label>
+                <input type="file" class="form-control-file" id="backbones_directory" name="backbones_directory" required multiple>
+                <small id="backbones_directory_help" class="form-text">Upload Golden Braid backbones (alphas and omegas) .gb files.</small>
+            </div>
+            
+            <div class="form-group">
+                <label for="domesticated_fragments_directory">Upload Domesticated Fragments:</label>
+                <input type="file" class="form-control-file" id="domesticated_fragments_directory" name="domesticated_fragments_directory" required multiple>
+                <small id="domesticated_fragments_directory_help" class="form-text">Upload .gb files containing domesticated fragments.</small>
+            </div>
+
+            <div class="form-group">
+                <label for="num_sequences">Number of Sequences:</label>
+                <input type="number" class="form-control" id="num_sequences" name="num_sequences" required>
+                <small id="num_sequences_help" class="form-text">Define the number of final constructs to be assembled.</small>
+            </div>
+
+            <div class="form-group">
+                <label for="max_length">Max Length (bp):</label>
+                <input type="number" class="form-control" id="max_length" name="max_length" required>
+                <small id="max_length_help" class="form-text">Define the maximum length of final constructs.</small>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS (optional, for certain Bootstrap features) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+
+

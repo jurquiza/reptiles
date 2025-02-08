@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assembly Plans</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 50px;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #343a40;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .btn-success {
+            background-color: #1ABC9C;
+            border-color: #1ABC9C;
+        }
+        .btn-success:hover {
+            background-color: #138D75;
+            border-color: #138D75;
+        }
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .card-header {
+            background-color: #5DADE2;
+            color: #ffffff;
+            border-bottom: none;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+        .btn-primary {
+            background-color: #1888ff;
+            border-color: #1888ff;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+        .table {
+            margin-top: 20px;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5 mb-4">Assembly Plans</h1>
+
+        <!-- Button container to hold both buttons -->
+        <div class="button-container">
+            <button id="simulate-assembly-btn" class="btn btn-success btn-lg">Simulate Assembly for All DataFrames</button>
+            <a href="{{ url_for('download_all_csv') }}" class="btn btn-success btn-lg">Download All Assembly Plans</a>
+        </div>
+
+        <!-- Button to simulate assembly for all DataFrames 
+        <div class="text-center mb-4">
+            <button id="simulate-assembly-btn" class="btn btn-success btn-lg">Simulate Assembly for All DataFrames</button>
+        </div>-->
+
+        {% for index, df in enumerate(dfs) %}
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h2 class="card-title">Assembly Plan {{ index + 1 }}</h2>
+                </div>
+                <div class="card-body">
+                    <a href="{{ url_for('download_csv', index=index) }}" class="btn btn-primary" download>Download CSV</a>
+                    <div class="table-responsive">
+                        <table class="table table-bordered mt-3">
+                            <thead>
+                                <tr>
+                                    {% for column in df.columns %}
+                                        <th>{{ column }}</th>
+                                    {% endfor %}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for row in df.iterrows() %}
+                                    <tr>
+                                        {% for value in row[1] %}
+                                            <td>{{ value }}</td>
+                                        {% endfor %}
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+    <!-- Bootstrap JS (optional, if you need JavaScript features) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Script to handle assembly simulation (keep it as it is) -->
+    <script>
+        document.getElementById('simulate-assembly-btn').addEventListener('click', function() {
+            fetch('/run-assembly-simulation', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({}),
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = '/progress';
+                } else {
+                    throw new Error('Failed to simulate assembly');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
+
+
+
